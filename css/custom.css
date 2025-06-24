@@ -1,3 +1,32 @@
 /*
 Custom Css
 */
+/* --- INICIO DE ESTILOS PARA ESTANDARIZAR IMÁGENES --- */
+
+/* Contenedor para las imágenes de las tarjetas de producto */
+.product-img-container {
+    /* Esto fuerza al contenedor a ser un cuadrado perfecto (ratio 1:1) */
+    aspect-ratio: 1 / 1 ; 
+    overflow: hidden; /* Oculta cualquier parte de la imagen que se desborde */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+/* La imagen dentro del contenedor de producto */
+.product-img-container img {
+    width: 100%;
+    height: 100%;
+    /* La magia está aquí: la imagen cubrirá todo el espacio sin deformarse.
+       Puede que se recorte un poco por los lados o por arriba/abajo. */
+    object-fit: cover; 
+}
+
+/* Para las imágenes de categoría en el index (círculos) */
+.category-icon-img {
+    width: 160px;  /* Forzamos un ancho fijo */
+    height: 160px; /* Forzamos un alto fijo (para que sea un cuadrado) */
+    object-fit: cover; /* La misma técnica para que la imagen cubra el espacio */
+}
+
+/* --- FIN DE ESTILOS PARA ESTANDARIZAR IMÁGENES --- */

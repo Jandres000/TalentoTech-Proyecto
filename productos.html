@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <title>FanStore</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <link rel="apple-touch-icon" href="img/apple-icon.png">
+    <link rel="shortcut icon" type="image/x-icon" href="img/favicon.ico">
+
+    <link rel="stylesheet" href="css/bootstrap.min.css">
+    <link rel="stylesheet" href="css/templatemo.css">
+    <link rel="stylesheet" href="css/custom.css">
+
+    <!-- Load fonts style after rendering the layout styles -->
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto:wght@100;200;300;400;500;700;900&display=swap">
+    <link rel="stylesheet" href="css/fontawesome.min.css">
+
+    <script src="db-simulacion/datos.js"></script>
+    <script src="db-simulacion/funciones.js"></script>
+ 
+</head>
+<body>
+<!---Encabezado de la pagina-->
+    <div id="header"></div>
+
+<!-- Inicio listado productos -->
+
+ <!-- Start Content -->
+    <div class="container py-5">
+        <div class="row">
+            <div class="col-lg-2"> 
+                <h1 class="h2 pb-4">Categorias</h1> <a class="collapsed d-flex justify-content-between h3 text-decoration-none text-dark" href="productos.html?categoria=todos"> Todos </a>
+                <ul class="list-unstyled templatemo-accordion" id="categorias">
+                    <li class="pb-3">
+                        
+                    </li>
+                </ul>
+            </div>
+            
+            <script>
+                const categorias = obtenerCategorias();
+                const categoriasContainer = document.getElementById('categorias');
+                categorias.forEach(categoria => {
+                    const li = document.createElement('li');
+                    li.className = 'pb-3';
+                    li.innerHTML = `
+                        <a class="collapsed d-flex justify-content-between h3 text-decoration-none" href="productos.html?categoria=${categoria.codigo}"> ${categoria.nombre} </a>
+                    `;
+                    categoriasContainer.querySelector('li').appendChild(li);
+                });
+            </script>
+        
+            <div class="col-lg-8">
+                <div class="row" id="productos"> 
+                    </div>
+                <!--Mostrar productos-->
+                <!-- Mostrar productos filtrados por categoría -->
+                <script>
+                    // Obtener el parámetro de búsqueda de la URL
+                    const urlParams = new URLSearchParams(window.location.search);
+                    const categoria = urlParams.get('categoria') ?? "todos";
+
+                    // Obtener productos filtrados
+                    const productos = obtenerProductos(categoria);
+                    const productosContainer = document.getElementById('productos');
+
+                    productos.forEach(producto => {
+                        const col = document.createElement('div');
+                        col.className = 'col-md-4';
+                        col.innerHTML = `
+                            <div class="card mb-4 product-wap rounded-0">
+                                <div class="card rounded-0">
+                                    <div class="product-img-container">
+                                    <img class="card-img rounded-0 img-fluid" src="${producto.imagen}">
+                                    <div class="card-img-overlay rounded-0 product-overlay d-flex align-items-center justify-content-center">
+                                        <ul class="list-unstyled">
+                                            <li><a class="btn btn-success text-white mt-2" href="detalles_producto.html?codigoProducto=${producto.codigo}"><i class="far fa-eye"></i></a></li>
+                                            <li><a class="btn btn-success text-white mt-2 btn-add" href="#"><i class="fas fa-cart-plus"></i></a></li>
+                                        </ul>
+                                    </div>
+                                </div>
+                                <div class="card-body">
+                                    <a href="" class="h3 text-decoration-none">${producto.nombre}</a>
+                                    <p>${producto.descripcion}</p>
+                                    <p class="text-center mb-0">$${producto.precio.toFixed(2)}</p>
+                                    <ul class="list-unstyled d-flex justify-content-center mb-1">
+                                        <li>
+                                            ${producto.calificacion ? '<i class="text-warning fa fa-star"></i>'.repeat(producto.calificacion) : ''}
+                                            ${producto.calificacion ? '<i class="text-muted fa fa-star"></i>'.repeat(5 - producto.calificacion) : ''}
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                        `;
+                        productosContainer.appendChild(col);
+                        col.querySelector(".btn-add").addEventListener("click", (e) => {
+                            e.preventDefault(); // Evita navegacion si hay href
+                            agregarProducto(producto);
+                        });
+                    });
+                </script>  
+
+                <!---Paginacion-->                        
+                <div div="row">
+                    <ul class="pagination pagination-lg justify-content-end">
+                        <li class="page-item disabled">
+                            <a class="page-link active rounded-0 mr-3 shadow-sm border-top-0 border-left-0" href="#" tabindex="-1">1</a>
+                        </li>
+                        <li class="page-item">
+                            <a class="page-link rounded-0 mr-3 shadow-sm border-top-0 border-left-0 text-dark" href="#">2</a>
+                        </li>
+                        <li class="page-item">
+                            <a class="page-link rounded-0 shadow-sm border-top-0 border-left-0 text-dark" href="#">3</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Carrito de compras -->
+
+
+            <div class ="col-lg-2" bg-light p-5>
+            <h3 class="h3 pb-2">Carrito de compras</h3>    
+            <!-- Precio total-->
+            <p class="text right pb-2">Total: $<span id="total"></span></p>
+            <!--Elementos del carrito-->
+            <ul id ="carrito" class="list-group"></ul>
+            
+            <!-- -->
+            <div id="boton-vaciar" class="btn btn-danger text text-decoration-none" onclick="vaciarCarrito()">Vaciar</div>
+             <div class="btn btn-success text text-decoration-none" id="boton-pagar">
+                <a class="text-decoration-none btn-success text-white" href="pago.html" target="target_blank">Pagar</a>
+             </div>
+             
+            <script>
+                mostrarCarrito();
+            </script>
+
+            </div>
+            <!-- Fin Carrito de compras -->
+
+        </div>
+    </div>
+    <!-- End Content -->
+
+<!-- Fin listado productos -->
+
+<!-- Pie de pagina-->
+ <div id="footer"></div>
+
+    <!-- Start Script -->
+    <script src="js/jquery-1.11.0.min.js"></script>
+    <script src="js/jquery-migrate-1.2.1.min.js"></script>
+    <script src="js/bootstrap.bundle.min.js"></script>
+    <script src="js/templatemo.js"></script>
+    <script src="js/custom.js"></script>
+    <!-- End Script -->
+
+    <script>
+         document.addEventListener("DOMContentLoaded", () => {
+            
+            // Llama a cargarFragmento para el header y encadena un .then()
+            cargarFragmento("header", "header.html")
+                .then(() => {
+                    // Este código se ejecutará DESPUÉS de que el header se haya cargado.
+                    // Ahora el elemento #contadorCarrito SÍ existe.
+                    actualizarContadorCarritoDisplay();
+                
+                    actualizarContadorPaginasVistas();
+            });
+
+            // La carga del footer puede seguir como estaba, ya que no depende de nada.
+              cargarFragmento("footer", "footer.html")
+            .then(() => {
+                // ¡AQUÍ ESTÁ EL NUEVO CÓDIGO!
+                cargarCategoriasFooter();
+                setupSubscriptionForm();
+            });
+                
+        });
+    </script>
+    
+</body>
+</html>
+
+<!-- <!DOCTYPE html>
+<html lang="es">

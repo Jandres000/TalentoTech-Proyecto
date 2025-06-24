@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <title>FanStore</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <link rel="apple-touch-icon" href="img/apple-icon.png">
+    <link rel="shortcut icon" type="image/x-icon" href="img/favicon.ico">
+
+    <link rel="stylesheet" href="css/bootstrap.min.css">
+    <link rel="stylesheet" href="css/templatemo.css">
+    <link rel="stylesheet" href="css/custom.css">
+
+    <!-- Load fonts style after rendering the layout styles -->
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto:wght@100;200;300;400;500;700;900&display=swap">
+    <link rel="stylesheet" href="css/fontawesome.min.css">
+
+    <script src="db-simulacion/datos.js"></script>
+    <script src="db-simulacion/funciones.js"></script>
+
+ 
+</head>
+<body>
+<!---Encabezado de la pagina-->
+    <div id="header"></div>
+
+ <section class="bg-success py-5">
+        <div class="container">
+            <div class="row align-items-center py-5">
+                <div class="col-md-8 text-white">
+                    <h1>Sobre nosotros</h1>
+                    <p>
+                        Fan Store es tu destino en línea definitivo para explorar y adquirir el mejor merchandising de tus universos favoritos: videojuegos, anime, series y películas. 
+                        Hemos creado esta plataforma con la pasión de un fan para ofrecer una experiencia de compra intuitiva y emocionante. Aquí, cada clic te acerca más a esa figura coleccionable, 
+                        esa prenda icónica o ese accesorio único que te conecta con las historias y personajes que amas. En "Fan Store", no solo compras un producto, ¡adquieres una pieza de tu pasión!
+                    </p>
+                </div>
+                <div class="col-md-4">
+                    <img src="img/about.png" alt="About Hero" width="750" height="750"> 
+                </div>
+            </div>
+        </div>
+    </section>
+    
+     <section class="bg-light py-5">
+        <div class="container">
+            <div class="row align-items-center py-5">
+                <div class="col-md-6 text-black">
+                    <h1>Mision</h1>
+                    <p>
+                         Nuestra misión es ser el punto de encuentro digital para los fans de la cultura pop, ofreciendo un catálogo cuidadosamente seleccionado de merchandising de alta calidad de videojuegos, anime, 
+                        series y películas. Buscamos proporcionar una experiencia de usuario excepcional, fácil de navegar y visualmente atractiva, que permita a los entusiastas encontrar y celebrar sus pasiones de 
+                        manera sencilla y gratificante.
+                    </p>
+                </div>
+                 <div class="col-md-6 text-black">
+                    <h1>Vision</h1>
+                    <p>
+                        Nuestra visión es convertirnos en la plataforma de referencia preferida por la comunidad friki y coleccionista, reconocida por nuestra dedicación a la calidad, la variedad curada de productos y 
+                        la creación de una experiencia de compra que va más allá de la transacción, cultivando el espíritu de comunidad y el amor por la cultura pop. Aspiramos a ser el reflejo digital de la pasión que 
+                        une a millones de fans en todo el mundo.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+
+
+ <div id="footer"></div>
+
+    <!-- Start Script -->
+    <script src="js/jquery-1.11.0.min.js"></script>
+    <script src="js/jquery-migrate-1.2.1.min.js"></script>
+    <script src="js/bootstrap.bundle.min.js"></script>
+    <script src="js/templatemo.js"></script>
+    <script src="js/custom.js"></script>
+    <!-- End Script -->
+
+    <script>
+         document.addEventListener("DOMContentLoaded", () => {
+            
+            // Llama a cargarFragmento para el header y encadena un .then()
+            cargarFragmento("header", "header.html")
+                .then(() => {
+                    // Este código se ejecutará DESPUÉS de que el header se haya cargado.
+                    // Ahora el elemento #contadorCarrito SÍ existe.
+                    actualizarContadorCarritoDisplay();
+                
+                    actualizarContadorPaginasVistas();
+            });
+
+            // La carga del footer puede seguir como estaba, ya que no depende de nada.
+              cargarFragmento("footer", "footer.html")
+            .then(() => {
+                // ¡AQUÍ ESTÁ EL NUEVO CÓDIGO!
+                cargarCategoriasFooter();
+                setupSubscriptionForm();
+            });
+                
+        });
+    </script>
+    
+</body>
+</html>
