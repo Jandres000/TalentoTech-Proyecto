@@ -23,11 +23,9 @@
 
                 <div class="col-md-4 pt-5">
                     <h2 class="h2 text-light border-bottom pb-3 border-light">Categoria de productos</h2>
-                    <ul class="list-unstyled text-light footer-link-list">
-                        <li><a class="text-decoration-none" href="#">Videojuegos</a></li>
-                        <li><a class="text-decoration-none" href="#">Anime</a></li>
-                        <li><a class="text-decoration-none" href="#">Series</a></li>
-                        <li><a class="text-decoration-none" href="#">Peliculas</a></li>
+            <!-- El <ul> ahora tiene un ID y está vacío, listo para ser llenado por JS -->
+                    <ul class="list-unstyled text-light footer-link-list" id="footer-categorias">
+        <!-- Los links se generarán aquí -->
                     </ul>
                 </div>
 
@@ -35,9 +33,9 @@
                     <h2 class="h2 text-light border-bottom pb-3 border-light">Mas informacion</h2>
                     <ul class="list-unstyled text-light footer-link-list">
                         <li><a class="text-decoration-none" href="index.html">Inicio</a></li>
-                        <li><a class="text-decoration-none" href="#">Acerca de</a></li>
-                        <li><a class="text-decoration-none" href="#">Productos</a></li>
-                        <li><a class="text-decoration-none" href="#">Contactame</a></li>
+                        <li><a class="text-decoration-none" href="acerca.html">Acerca de</a></li>
+                        <li><a class="text-decoration-none" href="productos.html">Productos</a></li>
+                        <li><a class="text-decoration-none" href="contacto.html">Contactame</a></li>
                     </ul>
                 </div>
 
@@ -66,8 +64,11 @@
                 <div class="col-auto">
                     <label class="sr-only" for="subscribeEmail">Email address</label>
                     <div class="input-group mb-2">
-                        <input type="text" class="form-control bg-dark border-light" id="subscribeEmail" placeholder="Correo electronico">
-                        <div class="input-group-text btn-success text-light">Subscribirse</div>
+                        <input type="text" class="form-control bg-dark border-light text-light" id="subscribeEmail" placeholder="Correo electronico">
+                        <div class="input-group-text btn-success text-light" id="subscribeBtn" style="cursor: pointer;">Subscribirse</div>
+                         </div>
+                            <div id="subscribe-feedback"></div>
+                        </div>
                     </div>
                 </div>
             </div>

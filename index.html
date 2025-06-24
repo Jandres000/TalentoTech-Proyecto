@@ -25,6 +25,61 @@
 
     <div id="header"></div>
 
+<!-- Start Banner Hero -->
+    <div id="template-mo-zay-hero-carousel" class="carousel slide" data-bs-ride="carousel">
+        <ol class="carousel-indicators">
+        </ol>
+        <div class="carousel-inner"> 
+        </div>
+        <a class="carousel-control-prev text-decoration-none w-auto ps-3" href="#template-mo-zay-hero-carousel" role="button" data-bs-slide="prev">
+            <i class="fas fa-chevron-left"></i>
+        </a>
+        <a class="carousel-control-next text-decoration-none w-auto pe-3" href="#template-mo-zay-hero-carousel" role="button" data-bs-slide="next">
+            <i class="fas fa-chevron-right"></i>
+        </a>
+    </div>
+    <script>
+        const banners = obtenerBanners();
+        banners.forEach( (banner, index ) => {
+            const carouselItem = document.querySelector('.carousel-inner');
+            const item = document.createElement('div');
+            item.className = 'carousel-item';
+            if (index == 0) {
+                item.classList.add('active');
+            }
+            item.innerHTML = `
+                <div class="container">
+                    <div class="row p-5">
+                        <div class="mx-auto col-md-8 col-lg-6 order-lg-last">
+                            <img class="img-fluid" src="${banner.imagen}" alt="">
+                        </div>
+                        <div class="col-lg-6 mb-0 d-flex align-items-center">
+                            <div class="text-align-left align-self-center">
+                                <h1 class="h1 text-success"><b>${banner.titulo}</b></h1>
+                                  <p>${banner.descripcion}</p>
+                                <p class="text-center"><a class="btn btn-success" href="productos.html?categoria=${banner.codigo}">Ver mas</a></p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            `;
+            carouselItem.appendChild(item);
+
+            //Agregar indicadores de carrusel
+            const indicators = document.querySelector('.carousel-indicators');
+            const indicator = document.createElement('li');
+            indicator.setAttribute('data-bs-target', '#template-mo-zay-hero-carousel');
+            indicator.setAttribute('data-bs-slide-to', index);
+            if (index == 0) {
+                indicator.classList.add('active');
+            }
+            indicators.appendChild(indicator);
+
+        });
+    </script>
+    <!-- End Banner Hero -->
+
+
     <!-- Start Categories of The Month -->
     <section class="container py-5">
         <div class="row text-center pt-3">
@@ -43,12 +98,12 @@
         const categorias = obtenerCategorias();
         categorias.forEach(cat => {
             const tarjeta = document.createElement('div');
-            tarjeta.className = 'col-12 col-md-4 p-5 mt-3';
+            tarjeta.className = 'col-12 col-md-3 p-5 mt-3';
           tarjeta.innerHTML = `
-                <a href="#"><img src="${cat.imagen}" class="rounded-circle img-fluid border"></a>
+                <a href="productos.html?categoria=${cat.codigo}"><img src="${cat.imagenCategoria}" class="category-icon-img rounded-circle img-fluid border"></a>
                 <h5 class="text-center mt-3 mb-3">${cat.nombre}</h5>
                 <p class="text-center">${cat.descripcion}</p>
-                <p class="text-center"><a class="btn btn-success" href="#">Go Shop</a></p>
+                <p class="text-center"><a class="btn btn-success" href="productos.html?categoria=${cat.codigo}">Ver mas</a></p>
             `;
             document.getElementById('categorias').appendChild(tarjeta);
         });
@@ -65,10 +120,27 @@
     <script src="js/custom.js"></script>
     <!-- End Script -->
 
-      <script>
-        document.addEventListener("DOMContentLoaded", () => {
-            cargarFragmento("header", "header.html");
-            cargarFragmento("footer", "footer.html");
+    <script>
+         document.addEventListener("DOMContentLoaded", () => {
+            
+            // Llama a cargarFragmento para el header y encadena un .then()
+            cargarFragmento("header", "header.html")
+                .then(() => {
+                    // Este código se ejecutará DESPUÉS de que el header se haya cargado.
+                    // Ahora el elemento #contadorCarrito SÍ existe.
+                    actualizarContadorCarritoDisplay();
+                
+                    actualizarContadorPaginasVistas();
+            });
+
+            // La carga del footer puede seguir como estaba, ya que no depende de nada.
+              cargarFragmento("footer", "footer.html")
+            .then(() => {
+                // ¡AQUÍ ESTÁ EL NUEVO CÓDIGO!
+                cargarCategoriasFooter();
+                setupSubscriptionForm();
+            });
+                
         });
     </script>
     

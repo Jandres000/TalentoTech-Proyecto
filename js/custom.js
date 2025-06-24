@@ -1,5 +1,5 @@
 function cargarFragmento(idElemento, archivo) {
-    fetch(archivo)
+    return fetch(archivo) 
         .then(respuesta => respuesta.text())
         .then(contenido => {
             document.getElementById(idElemento).innerHTML = contenido;

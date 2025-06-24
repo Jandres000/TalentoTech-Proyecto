@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <title>FanStore</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <link rel="apple-touch-icon" href="img/apple-icon.png">
+    <link rel="shortcut icon" type="image/x-icon" href="img/favicon.ico">
+
+    <link rel="stylesheet" href="css/bootstrap.min.css">
+    <link rel="stylesheet" href="css/templatemo.css">
+    <link rel="stylesheet" href="css/custom.css">
+
+    <!-- Load fonts style after rendering the layout styles -->
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto:wght@100;200;300;400;500;700;900&display=swap">
+    <link rel="stylesheet" href="css/fontawesome.min.css">
+
+    <script src="db-simulacion/datos.js"></script>
+    <script src="db-simulacion/funciones.js"></script>
+ 
+</head>
+<body>
+<!---Encabezado de la pagina-->
+    <div id="header"></div>
+
+<!--Inicio detalle productos-->
+
+ <!-- Open Content -->
+    <section class="bg-light">
+        <div class="container pb-5">
+            <div class="row">
+                <div class="col-lg-5 mt-5">
+                    <div class="card mb-3">
+                        <img class="card-img img-fluid" src="" alt="Card image cap" id="imagenProducto">
+                    </div>
+                    
+                </div>
+                <!-- col end -->
+                <div class="col-lg-7 mt-5">
+                    <div class="card">
+                        <div class="card-body">
+                            <h1 class="h2" id="nombreProducto"></h1>
+                            <p class="h3 py-2" id="precioProducto"></p>
+                            <p class="py-2" id="calificacionProducto">  
+                            </p>
+                            <ul class="list-inline" id="marca">
+                                <li class="list-inline-item">
+                                    <h6>Marca:</h6>
+                                </li>
+                                <li class="list-inline-item">
+                                    <p class="text-muted"><strong>Easy Wear</strong></p>
+                                </li>
+                            </ul>
+                           
+                            <h6>Descripcion:</h6>
+                            <p id="descripcionProducto"></p>
+
+
+                            <div class="row pb-3">
+                                <div class="col d-grid">
+                                    <a class="btn btn-success btn-lg" name="submit" value="buy" href="#" id="botonAgregar">Agregar</a>
+                                </div>
+                                <div class="col d-grid">
+                                     <button  class="btn btn-success btn-lg" name="submit" value="addtocard" onclick="window.history.back()">Regresar</button>
+                                </div>
+                            </div>
+
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <script>
+        // Obtener el parámetro de búsqueda de la URL
+        const urlParams = new URLSearchParams(window.location.search);
+        const codigoProducto = urlParams.get('codigoProducto');
+        // Obtener el producto por su código
+        const producto = obtenerProductoPorCodigo(codigoProducto);
+
+        // Mostrar los datos del producto en la página
+        if (producto) {
+            document.getElementById('imagenProducto').src = producto.imagen;
+            document.getElementById('nombreProducto').textContent = producto.nombre;
+            document.getElementById('precioProducto').textContent = `$${producto.precio.toFixed(2)}`;
+            document.getElementById('descripcionProducto').textContent = producto.descripcion;
+            document.getElementById('marca').innerHTML = `<li class="list-inline-item"><h6>Marca:</h6></li>
+                                   <li class="list-inline-item"><p class="text-muted"><strong>${producto.marca}</strong></p></li>`;
+            const estrellas ='<i class="text-warning fa fa-star"></i>'.repeat(producto.calificacion) +
+                             '<i class="text-secondary fa fa-star"></i>'.repeat(5 - producto.calificacion) ;
+            document.getElementById('calificacionProducto').innerHTML = estrellas;
+        }
+
+        // Agregar evento al botón de agregar al carrito
+        document.getElementById('botonAgregar').addEventListener('click', function () {
+                agregarProducto(producto,false); // false indica que no es una compra inmediata
+                window.history.back(); // Regresar a la página anterior
+
+        });
+    </script>
+
+    <!-- Close Content -->
+
+<!-- Pie de pagina-->
+ <div id="footer"></div>
+
+    <!-- Start Script -->
+    <script src="js/jquery-1.11.0.min.js"></script>
+    <script src="js/jquery-migrate-1.2.1.min.js"></script>
+    <script src="js/bootstrap.bundle.min.js"></script>
+    <script src="js/templatemo.js"></script>
+    <script src="js/custom.js"></script>
+    <!-- End Script -->
+
+    <script>
+         document.addEventListener("DOMContentLoaded", () => {
+            
+            // Llama a cargarFragmento para el header y encadena un .then()
+            cargarFragmento("header", "header.html")
+                .then(() => {
+                    // Este código se ejecutará DESPUÉS de que el header se haya cargado.
+                    // Ahora el elemento #contadorCarrito SÍ existe.
+                    actualizarContadorCarritoDisplay();
+                
+                    actualizarContadorPaginasVistas();
+            });
+
+            // La carga del footer puede seguir como estaba, ya que no depende de nada.
+              cargarFragmento("footer", "footer.html")
+            .then(() => {
+                // ¡AQUÍ ESTÁ EL NUEVO CÓDIGO!
+                cargarCategoriasFooter();
+                setupSubscriptionForm();
+            });
+                
+        });
+    </script>
+    
+</body>
+</html>
